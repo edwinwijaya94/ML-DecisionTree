@@ -108,11 +108,7 @@ public class MyJ48 extends Classifier implements OptionHandler, Drawable,
     m_root = new C45PruneableClassifierTree(modSelection, !m_unpruned, m_CF, m_subtreeRaising, !m_noCleanup);
     
     m_root.buildClassifier(instances);
-    if (m_binarySplits) {
-      ((BinC45ModelSelection) modSelection).cleanup();
-    } else {
-      ((C45ModelSelection) modSelection).cleanup();
-    }
+    ((C45ModelSelection) modSelection).cleanup();
   }
 
   /**
