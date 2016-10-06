@@ -1,18 +1,9 @@
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
-import weka.classifiers.Sourcable;
 import weka.core.Attribute;
-import weka.core.Capabilities;
 import weka.core.Instance;
 import weka.core.Instances;
-import weka.core.NoSupportForMissingValuesException;
-import weka.core.RevisionUtils;
-import weka.core.TechnicalInformation;
-import weka.core.TechnicalInformationHandler;
 import weka.core.Utils;
-import weka.core.Capabilities.Capability;
-import weka.core.TechnicalInformation.Field;
-import weka.core.TechnicalInformation.Type;
 
 import java.util.Enumeration;
 
@@ -121,10 +112,9 @@ public class MyID3 extends AbstractClassifier {
    *
    * @param instance the instance to be classified
    * @return the classification
-   * @throws NoSupportForMissingValuesException if instance has missing values
    */
   public double classifyInstance(Instance instance)
-    throws NoSupportForMissingValuesException {
+  {
 
     if (m_Attribute == null) {
       return m_ClassValue;
@@ -139,10 +129,9 @@ public class MyID3 extends AbstractClassifier {
    *
    * @param instance the instance for which distribution is to be computed
    * @return the class distribution for the given instance
-   * @throws NoSupportForMissingValuesException if instance has missing values
    */
   public double[] distributionForInstance(Instance instance)
-    throws NoSupportForMissingValuesException {
+  {
 
     if (m_Attribute == null) {
       return m_Distribution;
