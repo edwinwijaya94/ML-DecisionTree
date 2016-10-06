@@ -14,6 +14,8 @@ import weka.core.Capabilities.Capability;
 import weka.core.TechnicalInformation.Field;
 import weka.core.TechnicalInformation.Type;
 
+import java.util.Enumeration;
+
 public class MyID3 extends AbstractClassifier {
 
   /** The node's successors. */
@@ -38,6 +40,27 @@ public class MyID3 extends AbstractClassifier {
    * @exception Exception if classifier can't be built successfully
    */
   public void buildClassifier(Instances data) throws Exception {
+    if (!data.classAttribute().isNominal())
+    {
+      throw new Exception("MyID3: nominal class, please.");
+    }
+    Enumeration enumAtt = data.enumerateAttributes();
+
+    while (enumAtt.hasMoreElements())
+    {
+      Attribute attr = (Attribute) enumAtt.nextElement();
+      if (!attr.isNominal())
+        throw new Exception("MyID3: only nominal attributes, please.");
+
+      Enumeration en = data.enumerateInstances();
+
+      while (en.hasMoreElements())
+      {
+        if (((Instance) en.nextElement()).isMissing(attr))
+          throw new Exception("MyID3: no missing values, please.");
+      }
+    }
+
     // remove instances with missing class
     data = new Instances(data);
     data.deleteWithMissingClass();
@@ -103,10 +126,6 @@ public class MyID3 extends AbstractClassifier {
   public double classifyInstance(Instance instance)
     throws NoSupportForMissingValuesException {
 
-    if (instance.hasMissingValue()) {
-      throw new NoSupportForMissingValuesException("MyID3: no missing values, "
-                                                   + "please.");
-    }
     if (m_Attribute == null) {
       return m_ClassValue;
     } else {
@@ -125,10 +144,6 @@ public class MyID3 extends AbstractClassifier {
   public double[] distributionForInstance(Instance instance)
     throws NoSupportForMissingValuesException {
 
-    if (instance.hasMissingValue()) {
-      throw new NoSupportForMissingValuesException("MyID3: no missing values, "
-                                                   + "please.");
-    }
     if (m_Attribute == null) {
       return m_Distribution;
     } else {
